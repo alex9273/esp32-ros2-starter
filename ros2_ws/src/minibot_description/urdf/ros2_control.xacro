@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- In simulation Gazebo drives the wheels. On the real robot this block will point at the
+       ESP32 hardware interface instead; the controllers and everything above stay the same. -->
+  <xacro:macro name="minibot_ros2_control" params="use_sim controllers_file">
+    <ros2_control name="minibot" type="system">
+      <hardware>
+        <xacro:if value="${use_sim}">
+          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="${use_sim}">
+          <!-- Placeholder until the ESP32 hardware interface ships -->
+          <plugin>mock_components/GenericSystem</plugin>
+        </xacro:unless>
+      </hardware>
+      <xacro:macro name="wheel_joint" params="name">
+        <joint name="${name}">
+          <command_interface name="velocity">
+            <param name="min">-15</param>
+            <param name="max">15</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+      </xacro:macro>
+      <xacro:wheel_joint name="left_wheel_joint"/>
+      <xacro:wheel_joint name="right_wheel_joint"/>
+    </ros2_control>
+
+    <xacro:if value="${use_sim}">
+      <gazebo>
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+          <parameters>${controllers_file}</parameters>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+  </xacro:macro>
+</robot>
