@@ -3,7 +3,7 @@
   <name>minibot_description</name>
   <version>0.1.1</version>
   <description>URDF model of the Minibot differential-drive robot</description>
-  <maintainer email="62375749+alex9273@users.noreply.github.com">Alex Carpentier</maintainer>
+  <maintainer email="62375749+alex9273@users.noreply.github.com">Minibot Kits</maintainer>
   <license>MIT</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>xacro</exec_depend>

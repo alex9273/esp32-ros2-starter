@@ -69,4 +69,4 @@ No GPU or no display? Run `ros2 launch minibot_bringup sim.launch.py headless:=t
 - `TROUBLESHOOTING.md`: fixes for common errors
 
 ## Licence
-MIT. See `LICENSE`.
+MIT, © 2026 Minibot Kits. See `LICENSE`.
