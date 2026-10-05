@@ -5,6 +5,7 @@ sim.launch.py works from paths like "~/Side project/".
 """
 import os
 import shutil
+import signal
 import sys
 import tempfile
 import unittest
@@ -18,12 +19,14 @@ from ament_index_python.packages import get_package_prefix, get_package_share_di
 from launch.actions import ExecuteProcess, IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
+TEST_DIR = tempfile.mkdtemp(prefix='minibot_test_')
+
 
 @pytest.mark.launch_test
 def generate_test_description():
     desc = get_package_share_directory('minibot_description')
     bringup = get_package_share_directory('minibot_bringup')
-    spaced = os.path.join(tempfile.mkdtemp(), 'folder with spaces')
+    spaced = os.path.join(TEST_DIR, 'folder with spaces')
     os.makedirs(spaced)
     model = shutil.copy(os.path.join(desc, 'urdf', 'minibot.urdf.xacro'), spaced)
     world = shutil.copy(os.path.join(bringup, 'worlds', 'arena.sdf'), spaced)
@@ -36,6 +39,8 @@ def generate_test_description():
                                           'lib', 'minibot_bringup', 'drive_test.py')],
         output='screen')
     return launch.LaunchDescription([
+        # Keep this Gazebo separate from any other simulation running on the machine
+        launch.actions.SetEnvironmentVariable('GZ_PARTITION', os.path.basename(TEST_DIR)),
         sim,
         # drive_test.py waits up to 30 s for the controllers; give Gazebo a head start
         TimerAction(period=5.0, actions=[drive_test]),
@@ -48,8 +53,23 @@ class TestDrive(unittest.TestCase):
         proc_info.assertWaitForShutdown(process=drive_test, timeout=120)
 
 
+def kill_leftover_gazebo(test_dir):
+    """The Gazebo server can outlive the launch (it runs under a ruby wrapper); stop the one we started."""
+    for pid in filter(str.isdigit, os.listdir('/proc')):
+        try:
+            with open(f'/proc/{pid}/cmdline', 'rb') as f:
+                if test_dir.encode() in f.read():
+                    os.kill(int(pid), signal.SIGKILL)
+        except (OSError, ProcessLookupError):
+            pass
+
+
 @launch_testing.post_shutdown_test()
 class TestDriveResult(unittest.TestCase):
+    @classmethod
+    def tearDownClass(cls):
+        kill_leftover_gazebo(TEST_DIR)
+
     def test_drive_test_passed(self, proc_info, proc_output, drive_test):
         launch_testing.asserts.assertExitCodes(proc_info, process=drive_test)
         launch_testing.asserts.assertInStdout(proc_output, 'PASS', drive_test)
