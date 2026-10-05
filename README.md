@@ -6,7 +6,7 @@ A two-wheel robot that drives in Gazebo today and on a real ESP32 robot tomorrow
 
 **Status:** free simulation version (v0.1.1), tested on ROS 2 Jazzy + Gazebo Harmonic. No hardware needed.
 
-> **Full kit coming soon:** lidar mapping, autonomous navigation with Nav2, and the ESP32 micro-ROS firmware + hardware interface for the real robot. Star or watch this repo to hear when it's out.
+> **Want mapping and autonomous navigation?** The [full Minibot kit](https://payhip.com/b/yocBZ) adds a simulated lidar, SLAM mapping and Nav2 click-to-go on top of this robot, tested and documented ($19). The ESP32 micro-ROS firmware and hardware interface come as a free update to buyers. Star or watch this repo to follow along.
 
 ## What you get
 - `minibot_description`: robot model (URDF/xacro). All dimensions are at the top of `urdf/minibot.urdf.xacro`.

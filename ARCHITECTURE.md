@@ -9,8 +9,8 @@ A two-wheel robot that runs the **same ROS 2 stack** in three places:
 | Stage | Where it runs | What drives the wheels | Status |
 |---|---|---|---|
 | 1 | Gazebo simulation | Gazebo physics | Built, tested |
-| 2 | Gazebo simulation + lidar, mapping, navigation | Gazebo physics | Planned next |
-| 3 | Real robot | ESP32 + motor driver + encoder motors | Coming soon |
+| 2 | Gazebo simulation + lidar, mapping, navigation | Gazebo physics | Available in the [full kit](https://payhip.com/b/yocBZ) |
+| 3 | Real robot | ESP32 + motor driver + encoder motors | Coming soon (free update for kit buyers) |
 
 The key rule is that only the bottom layer changes between simulation and the real robot. Controllers, launch files, odometry, mapping and navigation stay identical. That is what makes the kit worth paying for: you can develop in sim and move to hardware without rewriting anything.
 
