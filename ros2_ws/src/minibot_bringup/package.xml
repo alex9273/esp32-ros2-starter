@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>minibot_bringup</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <description>Launch files and controller config for the Minibot robot (simulation and hardware)</description>
   <maintainer email="62375749+alex9273@users.noreply.github.com">Alex Carpentier</maintainer>
   <license>MIT</license>
@@ -15,5 +15,10 @@
   <exec_depend>joint_state_broadcaster</exec_depend>
   <exec_depend>teleop_twist_keyboard</exec_depend>
   <exec_depend>rviz2</exec_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>launch_testing_ament_cmake</test_depend>
+  <test_depend>python3-pytest</test_depend>
+  <test_depend>python3-yaml</test_depend>
+  <test_depend>xacro</test_depend>
   <export><build_type>ament_cmake</build_type></export>
 </package>

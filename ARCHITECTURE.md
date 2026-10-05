@@ -100,13 +100,12 @@ The free repo is the marketing: it solves a real problem on its own and its READ
 
 ## 7. Testing
 
-- **Every change:** build with colcon, launch headless, run `drive_test.py` (must print PASS).
+- **Every change:** `colcon build && colcon test`. The tests check that the URDF and `controllers.yaml` agree (wheel radius, wheel separation, joint names), unit-test the drive test maths, and run Gazebo headless from a folder with a space in its name until `drive_test.py` prints PASS.
 - **Stage 2:** scripted Nav2 goal in the arena must succeed.
 - **Stage 3:** same drive test on the real robot, plus a bench test of the firmware watchdog.
-- **Later (optional):** a GitHub Actions job that runs the headless test on every push to the public repo, so buyers see a green badge.
+- **CI:** GitHub Actions (`.github/workflows/ci.yml`) builds and runs the same tests in the official `ros:jazzy` image on every push and pull request.
 
 ## 8. Known limits today
 
-- Tested headless only. The Gazebo window and RViz have not been tried on a desktop yet.
-- Tested with ROS installed from RoboStack (conda), not yet with the standard apt install the README describes.
+- Tested headless in the cloud (RoboStack) and with the Gazebo window on Ubuntu 24.04 with the standard apt install (2026-10-05). RViz and `display.launch.py` have not been tried on a desktop yet.
 - The `use_sim:=false` path uses a mock placeholder until `minibot_hardware` exists.
