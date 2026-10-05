@@ -10,7 +10,7 @@ from launch.substitutions import Command
 def generate_launch_description():
     pkg = get_package_share_directory('minibot_description')
     xacro_file = os.path.join(pkg, 'urdf', 'minibot.urdf.xacro')
-    robot_description = ParameterValue(Command(['xacro ', xacro_file, ' use_sim:=false']), value_type=str)
+    robot_description = ParameterValue(Command(['xacro "', xacro_file, '" use_sim:=false']), value_type=str)
     return LaunchDescription([
         Node(package='robot_state_publisher', executable='robot_state_publisher',
              parameters=[{'robot_description': robot_description}]),

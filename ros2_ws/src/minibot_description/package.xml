@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>minibot_description</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <description>URDF model of the Minibot differential-drive robot</description>
   <maintainer email="62375749+alex9273@users.noreply.github.com">Alex Carpentier</maintainer>
   <license>MIT</license>

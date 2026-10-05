@@ -24,5 +24,9 @@ Check `use_sim_time` is true for every node in simulation; otherwise TF timestam
 Launch through `sim.launch.py`, which passes the path to the controller config. To inspect the URDF by hand:
 `xacro minibot.urdf.xacro use_sim:=false`.
 
+### `xacro` or Gazebo says a file doesn't exist, and the path is cut at a space
+Fixed in 0.1.1. If you wrote your own launch file, put quotes around file paths inside `Command([...])`, e.g.
+`Command(['xacro "', xacro_file, '"'])`.
+
 ### Gazebo window is black or crashes in a VM
 Use `headless:=true` (server only) and view the robot in RViz instead, or try `export LIBGL_ALWAYS_SOFTWARE=1`.

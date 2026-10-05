@@ -2,7 +2,9 @@
 
 A two-wheel robot that drives in Gazebo today and on a real ESP32 robot tomorrow, with the same controllers and launch files.
 
-**Status:** free simulation version (v0.1), tested on ROS 2 Jazzy + Gazebo Harmonic. No hardware needed.
+![Minibot driving in the Gazebo arena during the drive test](media/stage1-sim-drive-test.gif)
+
+**Status:** free simulation version (v0.1.1), tested on ROS 2 Jazzy + Gazebo Harmonic. No hardware needed.
 
 > **Full kit coming soon:** lidar mapping, autonomous navigation with Nav2, and the ESP32 micro-ROS firmware + hardware interface for the real robot. Star or watch this repo to hear when it's out.
 
@@ -38,6 +40,11 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args \
 Check everything works (prints PASS/FAIL):
 ```bash
 ros2 run minibot_bringup drive_test.py
+```
+
+Run the automated tests (model/config checks, plus a headless Gazebo run of the drive test, about a minute):
+```bash
+colcon test && colcon test-result --verbose
 ```
 
 No GPU or no display? Run `ros2 launch minibot_bringup sim.launch.py headless:=true rviz:=false` and use the drive test.

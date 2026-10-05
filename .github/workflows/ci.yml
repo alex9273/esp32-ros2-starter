@@ -1,0 +1,31 @@
+name: build-and-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  jazzy:
+    runs-on: ubuntu-24.04
+    container: ros:jazzy
+    defaults:
+      run:
+        shell: bash
+        working-directory: ros2_ws
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          apt-get update
+          rosdep update --rosdistro jazzy
+          rosdep install --from-paths src --ignore-src -y
+      - name: Build
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          colcon build --event-handlers console_direct+
+      - name: Test (includes a headless Gazebo drive test)
+        run: |
+          source /opt/ros/jazzy/setup.bash
+          colcon test --event-handlers console_direct+
+          colcon test-result --verbose

@@ -25,14 +25,15 @@ def generate_launch_description():
     world = LaunchConfiguration('world')
 
     robot_description = ParameterValue(
-        Command(['xacro ', LaunchConfiguration('model'), ' use_sim:=true controllers_file:=', controllers]),
+        # Quoted so paths with spaces (e.g. "~/My Projects/") still work
+        Command(['xacro "', LaunchConfiguration('model'), '" use_sim:=true controllers_file:="', controllers, '"']),
         value_type=str)
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')),
         launch_arguments={'gz_args': PythonExpression([
-            "'-r -v 2 ' + ('-s ' if '", headless, "' == 'true' else '') + '", world, "'"])}.items())
+            "'-r -v 2 ' + ('-s ' if '", headless, "' == 'true' else '') + '\"", world, "\"'"])}.items())
 
     robot_state_publisher = Node(
         package='robot_state_publisher', executable='robot_state_publisher',
